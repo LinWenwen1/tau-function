@@ -1,0 +1,92 @@
+#H3
+kk=7
+Q=[13,17,19,23,29,31]
+for n in range(len(Q)):
+    q=Q[n]
+    L=[]
+    for i in range(len(divisors(396))):
+        if Integers(2)(divisors(396)[i])==0 and is_prime(divisors(396)[i]+1) and divisors(396)[i]+1!=abs(kk) and divisors(396)[i]+1!=5 and divisors(396)[i]+1!=q and divisors(396)[i]+1<200:
+            L.append(divisors(396)[i]+1)
+    print(q,'L=',L)
+    
+    f = Newforms(2^3*5*abs(kk), names='a')
+    for i in range(2):
+        C=f[i].padded_list(200)#求系数
+        clf=[]
+        for j in range(len(L)):
+            l=L[j]
+            clf.append(C[l])
+        print('clf=',clf)
+
+        l=3
+        cl=clf[0]
+        BS=[1, 2]#B5中s的值
+        BT=[2, 0]#B5中t的值
+        Est=[]
+        F11=Integers(11)
+        for i in range(len(BS)):
+            s=BS[i]
+            t=BT[i]
+            E=[0,-3*s^11+2*t^2,0,t^4-3*s^11*t^2+s^22,0]#代入s和t得到的椭圆曲线
+            Est.append(E)
+        #print('Est',Est)#根据s和t的值得到的j=1时所有的椭圆曲线
+
+
+        C1S=[]
+        C1T=[]
+        for j in range(len(Est)):
+            F=GF(l)
+            Est1=EllipticCurve(F,Est[j])
+            alE=l+1-Est1.cardinality()#计算al（Est1）
+            result=F11(alE-cl)
+            if result==0:#判断Norm条件
+                C1S.append(BS[j])
+                C1T.append(BT[j])
+                #print(Est[j])#得到满足Norm条件的曲线以及对应的s和t的值
+        #print("C1S",C1S,"C1T",C1T)
+
+
+        D1=[]
+        for i in range(len(C1S)):
+            s=C1S[i]
+            t=C1T[i]
+            d=Integers(l)(t^4-3*s^11*t^2+s^22)
+            D1.append(d)
+        #print("D1",D1)
+
+        G3=[]
+        for b in range(396):
+            if Integers(4)(kk*q^b)==1 and Integers(11)(b)==0 and Integers(l)(kk*q^b) in D1:
+                G3.append(b)
+        print("G3",G3)
+
+13 L= [3, 19, 23, 37, 67, 199]
+clf= [-3, -2, -2, -6, 8, -4]
+G3 []
+clf= [-1, -6, -6, 6, -4, 0]
+G3 []
+17 L= [3, 13, 19, 23, 37, 67, 199]
+clf= [-3, -5, -2, -2, -6, 8, -4]
+G3 []
+clf= [-1, 1, -6, -6, 6, -4, 0]
+G3 []
+19 L= [3, 13, 23, 37, 67, 199]
+clf= [-3, -5, -2, -6, 8, -4]
+G3 []
+clf= [-1, 1, -6, 6, -4, 0]
+G3 []
+23 L= [3, 13, 19, 37, 67, 199]
+clf= [-3, -5, -2, -6, 8, -4]
+G3 []
+clf= [-1, 1, -6, 6, -4, 0]
+G3 []
+29 L= [3, 13, 19, 23, 37, 67, 199]
+clf= [-3, -5, -2, -2, -6, 8, -4]
+G3 []
+clf= [-1, 1, -6, -6, 6, -4, 0]
+G3 []
+31 L= [3, 13, 19, 23, 37, 67, 199]
+clf= [-3, -5, -2, -2, -6, 8, -4]
+G3 []
+clf= [-1, 1, -6, -6, 6, -4, 0]
+G3 []
